@@ -1,0 +1,15 @@
+{
+  "name": "movieium-server",
+  "version": "1.0.0",
+  "description": "Online Movie Ticket Booking System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Vishwas Tyagi",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
