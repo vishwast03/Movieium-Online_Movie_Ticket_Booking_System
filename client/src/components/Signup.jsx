@@ -1,18 +1,62 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = (props) => {
+  const navigate = useNavigate();
+
+  const [credentials, setCredentials] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    cpassword: "",
+  });
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  // TODO: Check for confirm password
+  const createNewUser = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(`${props.host}/api/auth/createuser`, {
+      method: "POST",
+      body: JSON.stringify({ ...credentials }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    const jsonResponse = await response.json();
+
+    localStorage.setItem("auth-token--movieium", jsonResponse.authToken);
+
+    props.loginUser();
+
+    navigate("/");
+  };
+
   return (
     <div id="form-container">
       <h2 id="form-title">Sign Up</h2>
-      <form id="signup-form" className="auth-form">
-        <input type="text" name="name" id="name" placeholder="Name" required />
+      <form id="signup-form" className="auth-form" onSubmit={createNewUser}>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Name"
+          required
+          value={credentials.name}
+          onChange={handleChange}
+        />
         <input
           type="email"
           name="email"
           id="email"
           placeholder="E-mail"
           required
+          value={credentials.email}
+          onChange={handleChange}
         />
         <input
           type="tel"
@@ -20,6 +64,8 @@ const Signup = () => {
           id="phone"
           placeholder="Phone Number"
           required
+          value={credentials.phone}
+          onChange={handleChange}
         />
         <input
           type="password"
@@ -27,6 +73,8 @@ const Signup = () => {
           id="password"
           placeholder="Password"
           required
+          value={credentials.password}
+          onChange={handleChange}
         />
         <input
           type="password"
@@ -34,6 +82,8 @@ const Signup = () => {
           id="cpassword"
           placeholder="Confirm Password"
           required
+          value={credentials.cpassword}
+          onChange={handleChange}
         />
         <button type="submit">Sign Up</button>
       </form>

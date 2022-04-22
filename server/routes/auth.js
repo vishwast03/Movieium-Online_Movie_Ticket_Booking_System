@@ -5,7 +5,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const fetchUser = require("../middleware/fetchUser");
+const fetchUser = require("../middlewares/fetchUser");
 
 const privateKey = process.env.JWT_SECRET;
 
@@ -128,5 +128,26 @@ router.get("/getuser", fetchUser, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
+// ROUTE 4: Login Admin using: POST "/api/auth/adminlogin" - No login required
+router.post(
+  "/adminlogin",
+  [body("password", "Password cannot be blank").exists()],
+  (req, res) => {
+    let success = false;
+
+    // If there are errors, return Bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const password = req.body.password;
+
+    if (password == process.env.ADMIN_PASSWORD) success = true;
+
+    res.json({ success });
+  }
+);
 
 module.exports = router;

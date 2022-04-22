@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <nav id="navbar">
       <div id="logo-container">
@@ -25,12 +25,23 @@ const Navbar = () => {
         </ul>
       </div>
       <div id="auth-links">
-        <Link to="/login" id="login-btn">
-          Log In
-        </Link>
-        <Link to="/signup" id="signup-btn">
-          Sign Up
-        </Link>
+        {!props.user.isLoggedIn ? (
+          <>
+            <Link to="/login" id="login-btn" className="auth-btn">
+              Log In
+            </Link>
+            <Link to="/signup" id="signup-btn" className="auth-btn">
+              Sign Up
+            </Link>
+          </>
+        ) : (
+          <>
+            <span id="greeting-text">{`Hello, ${props.user.name}`}</span>
+            <button className="auth-btn" onClick={props.logoutUser}>
+              Log Out
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );
