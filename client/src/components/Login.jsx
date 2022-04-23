@@ -25,11 +25,17 @@ const Login = (props) => {
     });
     const jsonResponse = await response.json();
 
-    localStorage.setItem("auth-token--movieium", jsonResponse.authToken);
+    if (jsonResponse.success) {
+      localStorage.setItem("auth-token--movieium", jsonResponse.authToken);
 
-    props.loginUser();
+      props.showAlert("Logged In Successfully.", "success");
 
-    navigate("/");
+      props.loginUser();
+
+      navigate("/");
+    } else {
+      props.showAlert("Invalid E-mail or Password", "warning");
+    }
   };
 
   return (

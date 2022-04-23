@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 import RunningMovies from "./RunningMovies";
 
 const Home = (props) => {
@@ -9,12 +10,12 @@ const Home = (props) => {
       <Link to="bookingdashboard" id="ticket-link">
         Book Now !
       </Link>
-      {/* <Link to="/adminlogin">Admin Login</Link> */}
       <RunningMovies
         host={props.host}
         movies={props.movies}
         fetchAllMovies={props.fetchAllMovies}
       />
+      <Footer />
     </main>
   );
 };

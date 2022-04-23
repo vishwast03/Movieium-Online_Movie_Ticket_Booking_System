@@ -36,7 +36,9 @@ const Navbar = (props) => {
           </>
         ) : (
           <>
-            <span id="greeting-text">{`Hello, ${props.user.name}`}</span>
+            <span id="greeting-text">{`Hello, ${
+              props.user.name.split(" ")[0]
+            }`}</span>
             <button className="auth-btn" onClick={props.logoutUser}>
               Log Out
             </button>

@@ -10,11 +10,17 @@ const AdminDashboard = (props) => {
     stars: "",
     poster_link: "",
   });
+  const [showDetails, setShowDetails] = useState({
+    date: "",
+    seats: "",
+    ticket_price: "",
+    movie: "none",
+  });
 
   useEffect(() => {
-    // if (!props.adminLogin.status) {
-    //   navigate("/adminlogin");
-    // }
+    if (!props.adminLogin.status) {
+      navigate("/adminlogin");
+    }
     props.fetchAllMovies();
   }, []);
 
@@ -24,6 +30,10 @@ const AdminDashboard = (props) => {
 
   const handleMovieChange = (e) => {
     setMovieDetails({ ...movieDetails, [e.target.name]: e.target.value });
+  };
+
+  const handleShowChange = (e) => {
+    setShowDetails({ ...showDetails, [e.target.name]: e.target.value });
   };
 
   const handleMovieSubmit = async (e) => {
@@ -37,8 +47,8 @@ const AdminDashboard = (props) => {
         "admin-password": props.adminLogin.password,
       },
     });
-    const jsonResponse = await response.json();
-    // TODO: Alert Success
+
+    props.showAlert("Movie Added Successfully.", "success");
 
     setMovieDetails({
       title: "",
@@ -46,6 +56,32 @@ const AdminDashboard = (props) => {
       stars: "",
       poster_link: "",
     });
+  };
+
+  const handleShowSubmit = async (e) => {
+    e.preventDefault();
+
+    if (showDetails.movie === "none") {
+      props.showAlert("No movie selected", "warning");
+    } else {
+      const response = await fetch(`${props.host}/api/movies/addshow`, {
+        method: "POST",
+        body: JSON.stringify({ ...showDetails }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "admin-password": props.adminLogin.password,
+        },
+      });
+
+      props.showAlert("Movie Show Added Successfully.", "success");
+
+      setShowDetails({
+        date: "",
+        seats: "",
+        ticket_price: "",
+        movie: "none",
+      });
+    }
   };
 
   return (
@@ -109,24 +145,42 @@ const AdminDashboard = (props) => {
       ) : (
         <div className="add-form-container">
           <h2 className="add-form-title">Add Movie Show</h2>
-          <form className="add-form">
-            <input type="date" name="show-date" id="show-date" required />
-            <input type="time" name="show-time" id="show-time" required />
+          <form className="add-form" onSubmit={handleShowSubmit}>
+            <input
+              type="datetime-local"
+              name="date"
+              id="date"
+              value={showDetails.date}
+              onChange={handleShowChange}
+            />
             <input
               type="number"
               name="seats"
               id="seats"
               placeholder="Seats"
               required
+              value={showDetails.seats}
+              onChange={handleShowChange}
             />
             <input
-              type="text"
-              name="movie"
-              id="movie"
-              placeholder="Movie"
+              type="number"
+              name="ticket_price"
+              id="ticket_price"
+              placeholder="Ticket Price"
               required
+              value={showDetails.ticket_price}
+              onChange={handleShowChange}
             />
-            <select name="movies" id="movies">
+            <select
+              name="movie"
+              id="movie-select"
+              required
+              value={showDetails.movie}
+              onChange={handleShowChange}
+            >
+              <option value="none" disabled hidden>
+                Select a Movie
+              </option>
               {props.movies.map((movie) => {
                 return (
                   <option key={movie._id} value={movie.title}>

@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer id="footer">
-      <div>Footer</div>
+      <div id="copyright">&#169; Copyright Movieium</div>
+      <Link to="/adminlogin">Admin Login</Link>
     </footer>
   );
 };

@@ -16,24 +16,36 @@ const Signup = (props) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  // TODO: Check for confirm password
   const createNewUser = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`${props.host}/api/auth/createuser`, {
-      method: "POST",
-      body: JSON.stringify({ ...credentials }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    const jsonResponse = await response.json();
+    if (credentials.password === credentials.cpassword) {
+      const response = await fetch(`${props.host}/api/auth/createuser`, {
+        method: "POST",
+        body: JSON.stringify({ ...credentials }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const jsonResponse = await response.json();
 
-    localStorage.setItem("auth-token--movieium", jsonResponse.authToken);
+      if (jsonResponse.success) {
+        props.showAlert("Accout created successfully.", "success");
 
-    props.loginUser();
+        localStorage.setItem("auth-token--movieium", jsonResponse.authToken);
 
-    navigate("/");
+        props.loginUser();
+
+        navigate("/");
+      } else {
+        props.showAlert("E-mail already taken", "warning");
+      }
+    } else {
+      props.showAlert(
+        `"Password" and "Confirm Password" should match`,
+        "warning"
+      );
+    }
   };
 
   return (

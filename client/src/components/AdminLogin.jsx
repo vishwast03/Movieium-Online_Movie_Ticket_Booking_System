@@ -23,11 +23,14 @@ const AdminLogin = (props) => {
     const jsonResponse = await response.json();
 
     if (jsonResponse.success) {
+      props.showAlert("Logged In Successfully as Admin", "success");
       props.setAdminLogin({
         status: true,
         password: password,
       });
       navigate("/admindashboard");
+    } else {
+      props.showAlert("Incorrect Password", "danger");
     }
   };
 

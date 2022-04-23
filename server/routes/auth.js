@@ -34,7 +34,7 @@ router.post(
       let user = await User.findOne({ email: req.body.email });
       if (user) {
         success = false;
-        return res.status(400).json({
+        return res.status(200).json({
           success,
           error: "Sorry a user with this email already exists",
         });
@@ -89,7 +89,7 @@ router.post(
 
       if (!user) {
         success = false;
-        return res.status(400).json({
+        return res.status(200).json({
           success,
           error: "Please try to login with correct credentials",
         });
@@ -97,7 +97,7 @@ router.post(
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
-        return res.status(400).json({
+        return res.status(200).json({
           success,
           error: "Please try to login with correct credentials",
         });

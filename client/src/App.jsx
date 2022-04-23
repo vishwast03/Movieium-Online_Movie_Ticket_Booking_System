@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import BookingDashboard from "./components/BookingDashboard";
+import Alert from "./components/Alert";
+import TicketDashboard from "./components/TicketDashboard";
 
 const App = () => {
   const host = "http://localhost:5000";
@@ -24,6 +26,8 @@ const App = () => {
   });
 
   const [movies, setMovies] = useState([]);
+
+  const [alert, setAlert] = useState({ text: "", type: "" });
 
   const fetchAllMovies = async () => {
     const response = await fetch(`${host}/api/movies/getall`);
@@ -57,6 +61,15 @@ const App = () => {
       email: "",
       phone_no: "",
     });
+
+    showAlert("Logged Out Successfully.", "success");
+  };
+
+  const showAlert = (text, type) => {
+    setAlert({ text, type });
+    setTimeout(() => {
+      setAlert({ text: "", type: "" });
+    }, 2000);
   };
 
   useEffect(() => {
@@ -68,6 +81,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar user={user} logoutUser={logoutUser} />
+      {alert.text && <Alert alert={alert} />}
       <Routes>
         <Route
           path="/"
@@ -77,15 +91,25 @@ const App = () => {
         />
         <Route
           path="/login"
-          element={<Login host={host} loginUser={loginUser} />}
+          element={
+            <Login host={host} loginUser={loginUser} showAlert={showAlert} />
+          }
         />
         <Route
           path="/signup"
-          element={<Signup host={host} loginUser={loginUser} />}
+          element={
+            <Signup host={host} loginUser={loginUser} showAlert={showAlert} />
+          }
         />
         <Route
           path="/adminlogin"
-          element={<AdminLogin host={host} setAdminLogin={setAdminLogin} />}
+          element={
+            <AdminLogin
+              host={host}
+              setAdminLogin={setAdminLogin}
+              showAlert={showAlert}
+            />
+          }
         />
         <Route
           path="/admindashboard"
@@ -95,10 +119,18 @@ const App = () => {
               adminLogin={adminLogin}
               movies={movies}
               fetchAllMovies={fetchAllMovies}
+              showAlert={showAlert}
             />
           }
         />
-        <Route path="/bookingdashboard" element={<BookingDashboard />} />
+        <Route
+          path="/bookingdashboard"
+          element={<BookingDashboard host={host} user={user} />}
+        />
+        <Route
+          path="ticket/:showId"
+          element={<TicketDashboard host={host} user={user} />}
+        />
       </Routes>
     </BrowserRouter>
   );
