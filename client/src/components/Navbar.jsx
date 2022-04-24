@@ -1,8 +1,9 @@
 import React from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = (props) => {
+  const navigate = useNavigate();
   return (
     <nav id="navbar">
       <div id="logo-container">
@@ -39,7 +40,13 @@ const Navbar = (props) => {
             <span id="greeting-text">{`Hello, ${
               props.user.name.split(" ")[0]
             }`}</span>
-            <button className="auth-btn" onClick={props.logoutUser}>
+            <button
+              className="auth-btn"
+              onClick={() => {
+                props.logoutUser();
+                navigate("/");
+              }}
+            >
               Log Out
             </button>
           </>

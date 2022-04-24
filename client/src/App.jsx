@@ -129,7 +129,9 @@ const App = () => {
         />
         <Route
           path="ticket/:showId"
-          element={<TicketDashboard host={host} user={user} />}
+          element={
+            <TicketDashboard host={host} user={user} showAlert={showAlert} />
+          }
         />
       </Routes>
     </BrowserRouter>
