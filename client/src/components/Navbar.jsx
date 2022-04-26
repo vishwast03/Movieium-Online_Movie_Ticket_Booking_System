@@ -12,19 +12,6 @@ const Navbar = (props) => {
           <span id="logo-title">Movieium</span>
         </Link>
       </div>
-      <div id="nav-menu">
-        <ul id="nav-links">
-          <li className="nav-link">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="nav-link">
-            <Link to="/">About</Link>
-          </li>
-          <li className="nav-link">
-            <Link to="/">Contact</Link>
-          </li>
-        </ul>
-      </div>
       <div id="auth-links">
         {!props.user.isLoggedIn ? (
           <>
@@ -40,6 +27,9 @@ const Navbar = (props) => {
             <span id="greeting-text">{`Hello, ${
               props.user.name.split(" ")[0]
             }`}</span>
+            <Link to="/tickets" id="nav-link">
+              Your Tickets
+            </Link>
             <button
               className="auth-btn"
               onClick={() => {

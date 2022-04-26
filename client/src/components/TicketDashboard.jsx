@@ -115,6 +115,8 @@ const TicketDashboard = (props) => {
           razorpaySignature: response.razorpay_signature,
           show_id: show._id,
           user_id: props.user._id,
+          movie: show.movie,
+          show_date: show.date,
         };
 
         const result = await axios.post(

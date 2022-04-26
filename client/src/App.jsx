@@ -9,6 +9,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import BookingDashboard from "./components/BookingDashboard";
 import Alert from "./components/Alert";
 import TicketDashboard from "./components/TicketDashboard";
+import Tickets from "./components/Tickets";
 
 const App = () => {
   const host = "http://localhost:5000";
@@ -133,6 +134,7 @@ const App = () => {
             <TicketDashboard host={host} user={user} showAlert={showAlert} />
           }
         />
+        <Route path="/tickets" element={<Tickets host={host} user={user} />} />
       </Routes>
     </BrowserRouter>
   );

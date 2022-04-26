@@ -51,34 +51,41 @@ const BookingDashboard = (props) => {
   return (
     <div id="booking-dashboard">
       <h2 id="booking-title">Book Ticket</h2>
-      <table id="show-table">
-        <thead>
-          <tr>
-            <th>Movie</th>
-            <th>Date/Time</th>
-            <th>Available Seats</th>
-            <th>Ticket Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {movieShows.map((show) => {
-            return (
-              <tr key={show._id}>
-                <td>{show.movie}</td>
-                <td>{formatDateTime(show.date)}</td>
-                <td>{show.seats}</td>
-                <td>&#8377;{show.ticket_price}</td>
-                <td>
-                  <Link to={`/ticket/${show._id}`} className="book-btn">
-                    Book Ticket
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {movieShows.length === 0 ? (
+        <div className="dots-1" style={{ margin: "0 auto" }}></div>
+      ) : (
+        <table id="show-table">
+          <thead>
+            <tr>
+              <th>Movie</th>
+              <th>Date/Time</th>
+              <th>Available Seats</th>
+              <th>Ticket Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {movieShows.map((show) => {
+              return (
+                <tr key={show._id}>
+                  <td>{show.movie}</td>
+                  <td>{formatDateTime(show.date)}</td>
+                  <td>{show.seats}</td>
+                  <td>&#8377;{show.ticket_price}</td>
+                  <td>
+                    <Link
+                      to={`/ticket/${show._id}`}
+                      className={`book-btn ${!show.seats && "disabled-link"}`}
+                    >
+                      Book Ticket
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
