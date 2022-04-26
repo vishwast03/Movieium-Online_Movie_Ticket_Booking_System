@@ -1,9 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const Razorpay = require("razorpay");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const router = express.Router();
 const Ticket = require("../models/Ticket");
+const MovieShow = require("../models/MovieShow");
 
 router.post("/orders", async (req, res) => {
   try {
@@ -37,6 +38,8 @@ router.post("/success", async (req, res) => {
       razorpaySignature,
       user_id,
       show_id,
+      show_date,
+      movie,
     } = req.body;
 
     // const shasum = crypto.createHmac("sha256", "w2lBtgmeuDUfnJVp43UpcaiT");
@@ -52,7 +55,16 @@ router.post("/success", async (req, res) => {
       user_id,
       show_id,
       order_id: razorpayOrderId,
+      show_date,
+      movie,
     });
+
+    const movieShow = await MovieShow.findById(show_id);
+    if (movieShow.seats - 1 >= 0) {
+      let seatsLeft = movieShow.seats - 1;
+      movieShow.seats = seatsLeft;
+      movieShow.save();
+    }
 
     res.json({
       msg: "success",

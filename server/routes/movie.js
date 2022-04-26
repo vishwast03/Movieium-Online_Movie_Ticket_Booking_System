@@ -49,7 +49,10 @@ router.get("/getall", async (req, res) => {
 // ROUTE 4: Fetch all movie shows using: GET /api/movies/getshows - No Login Required
 router.get("/getshows", async (req, res) => {
   try {
-    const movieShows = await MovieShow.find().sort({ date: 1 });
+    const dateObj = new Date();
+    const movieShows = await MovieShow.find({ date: { $gte: dateObj } }).sort({
+      date: 1,
+    });
     res.status(200).json(movieShows);
   } catch (error) {
     res.status(500).send("Internal server error");

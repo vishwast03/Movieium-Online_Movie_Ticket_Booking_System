@@ -6,6 +6,14 @@ const TicketSchema = new Schema({
     type: String,
     required: true,
   },
+  show_date: {
+    type: Date,
+    required: true,
+  },
+  movie: {
+    type: String,
+    required: true,
+  },
   user_id: {
     type: String,
     required: true,
