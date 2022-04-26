@@ -40,6 +40,7 @@ router.post("/addshow", authenticateAdmin, async (req, res) => {
 router.get("/getall", async (req, res) => {
   try {
     const movies = await Movie.find();
+    movies.reverse();
     res.status(200).json(movies);
   } catch (error) {
     res.status(500).send("Internal server error");

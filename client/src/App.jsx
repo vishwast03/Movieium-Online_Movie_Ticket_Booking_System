@@ -73,6 +73,35 @@ const App = () => {
     }, 2000);
   };
 
+  const formatDateTime = (date) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const dateObj = new Date(date);
+
+    const formattedString = `${dateObj.getDate()} ${
+      months[dateObj.getMonth()]
+    } / ${dateObj.getHours()}:${
+      dateObj.getMinutes() < 10
+        ? "0" + dateObj.getMinutes()
+        : dateObj.getMinutes()
+    }`;
+
+    return formattedString;
+  };
+
   useEffect(() => {
     if (localStorage.getItem("auth-token--movieium")) {
       loginUser();
@@ -126,15 +155,31 @@ const App = () => {
         />
         <Route
           path="/bookingdashboard"
-          element={<BookingDashboard host={host} user={user} />}
+          element={
+            <BookingDashboard
+              host={host}
+              user={user}
+              formatDateTime={formatDateTime}
+            />
+          }
         />
         <Route
           path="ticket/:showId"
           element={
-            <TicketDashboard host={host} user={user} showAlert={showAlert} />
+            <TicketDashboard
+              host={host}
+              user={user}
+              showAlert={showAlert}
+              formatDateTime={formatDateTime}
+            />
           }
         />
-        <Route path="/tickets" element={<Tickets host={host} user={user} />} />
+        <Route
+          path="/tickets"
+          element={
+            <Tickets host={host} user={user} formatDateTime={formatDateTime} />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

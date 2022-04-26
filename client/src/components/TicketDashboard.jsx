@@ -26,35 +26,6 @@ const TicketDashboard = (props) => {
     setShow(jsonResponse);
   };
 
-  const formatDateTime = (date) => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const dateObj = new Date(date);
-
-    const formattedString = `${dateObj.getDate()} ${
-      months[dateObj.getMonth()]
-    } / ${dateObj.getHours()}:${
-      dateObj.getMinutes() < 10
-        ? "0" + dateObj.getMinutes()
-        : dateObj.getMinutes()
-    }`;
-
-    return formattedString;
-  };
-
   useEffect(() => {
     if (!props.user.isLoggedIn) {
       navigate("/login");
@@ -151,7 +122,7 @@ const TicketDashboard = (props) => {
           Movie: <span>{show.movie}</span>
         </div>
         <div>
-          Date: <span>{show.date && formatDateTime(show.date)}</span>
+          Date: <span>{show.date && props.formatDateTime(show.date)}</span>
         </div>
         <div>
           Available Seats: <span>{show.seats}</span>

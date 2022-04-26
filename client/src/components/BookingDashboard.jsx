@@ -12,35 +12,6 @@ const BookingDashboard = (props) => {
     setMovieShows(jsonResponse);
   };
 
-  const formatDateTime = (date) => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    const dateObj = new Date(date);
-
-    const formattedString = `${dateObj.getDate()} ${
-      months[dateObj.getMonth()]
-    } / ${dateObj.getHours()}:${
-      dateObj.getMinutes() < 10
-        ? "0" + dateObj.getMinutes()
-        : dateObj.getMinutes()
-    }`;
-
-    return formattedString;
-  };
-
   useEffect(() => {
     if (!props.user.isLoggedIn) {
       navigate("/login");
@@ -69,7 +40,7 @@ const BookingDashboard = (props) => {
               return (
                 <tr key={show._id}>
                   <td>{show.movie}</td>
-                  <td>{formatDateTime(show.date)}</td>
+                  <td>{props.formatDateTime(show.date)}</td>
                   <td>{show.seats}</td>
                   <td>&#8377;{show.ticket_price}</td>
                   <td>
