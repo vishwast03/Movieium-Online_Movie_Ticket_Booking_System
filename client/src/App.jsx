@@ -12,7 +12,7 @@ import TicketDashboard from "./components/TicketDashboard";
 import Tickets from "./components/Tickets";
 
 const App = () => {
-  const host = "http://localhost:5000";
+  const host = "https://movieium-server.vercel.app";
 
   const [user, setUser] = useState({
     isLoggedIn: false,
