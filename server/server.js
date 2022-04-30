@@ -5,7 +5,7 @@ require("dotenv").config();
 const cors = require("cors");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 8080;
 
 mongoose.connect(process.env.MONGO_URI, () => {
   console.log("Connected to Mongo successfully.");
@@ -19,10 +19,10 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/movies", require("./routes/movie"));
-app.use("/api/payment", require("./routes/payment"));
-app.use("/api/ticket", require("./routes/ticket"));
+app.use("/api/auth", require("./api/auth"));
+app.use("/api/movies", require("./api/movie"));
+app.use("/api/payment", require("./api/payment"));
+app.use("/api/ticket", require("./api/ticket"));
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
