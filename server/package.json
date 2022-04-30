@@ -2,11 +2,11 @@
   "name": "movieium-server",
   "version": "1.0.0",
   "description": "Online Movie Ticket Booking System",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "dev-both": "concurrently \"nodemon server.js\" \"cd ../client; npm run dev\""
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "dev-both": "concurrently \"nodemon index.js\" \"cd ../client; npm run dev\""
   },
   "author": "Vishwas Tyagi",
   "license": "ISC",
